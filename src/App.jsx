@@ -21,56 +21,56 @@ const CoralGallery = () => {
   const galleryImages = [
     {
       id: 1,
-      url: "/images/foto1.jpg",
+      url: "/images/azkal-cover.jpg",
       alt: "Galeri Khitanan 1",
       bg: "bg-[#fff4df]",
       msg: "Momen bahagia putra kami menjelang acara khitanan.",
     },
     {
       id: 2,
-      url: "/images/foto2.jpg",
+      url: "/images/azkal-cover.jpg",
       alt: "Galeri Khitanan 2",
       bg: "bg-[#f8ead8]",
       msg: "Senyum kecil yang menjadi kebahagiaan keluarga.",
     },
     {
       id: 3,
-      url: "/images/foto3.jpg",
+      url: "/images/azkal-cover.jpg",
       alt: "Galeri Khitanan 3",
       bg: "bg-[#f4dfbd]",
       msg: "Doa dan harapan terbaik untuk tumbuh menjadi anak sholeh.",
     },
     {
       id: 4,
-      url: "/images/foto (2).jpeg",
+      url: "/images/azkal-cover.jpg",
       alt: "Galeri Khitanan 4",
       bg: "bg-[#fff8ef]",
       msg: "Kenangan indah bersama keluarga tercinta.",
     },
     {
       id: 5,
-      url: "/images/foto (4).jpeg",
+      url: "/images/azkal-cover.jpg",
       alt: "Galeri Khitanan 5",
       bg: "bg-[#f2e2cb]",
       msg: "Semoga menjadi anak yang sehat, kuat, dan berakhlak mulia.",
     },
     {
       id: 6,
-      url: "/images/foto-1.jpeg",
+      url: "/images/azkal-cover.jpg",
       alt: "Galeri Khitanan 6",
       bg: "bg-[#fff4df]",
       msg: "Kebersamaan keluarga dalam rasa syukur dan bahagia.",
     },
     {
       id: 7,
-      url: "/images/foto-2.jpeg",
+      url: "/images/azkal-cover.jpg",
       alt: "Galeri Khitanan 7",
       bg: "bg-[#f8ead8]",
       msg: "Momen kecil yang insyaAllah menjadi kenangan berharga.",
     },
     {
       id: 8,
-      url: "/images/foto-4.JPG",
+      url: "/images/azkal-cover.jpg",
       alt: "Galeri Khitanan 8",
       bg: "bg-[#fff8ef]",
       msg: "Terima kasih atas doa dan kehadiran Bapak/Ibu/Saudara/i.",
@@ -713,7 +713,7 @@ const toggleMusic = () => {
           <div className="w-44 h-44 md:w-52 md:h-52 rounded-full bg-gradient-to-br from-[#e8c77d] to-[#9b642d] p-[5px] shadow-2xl">
             <div className="w-full h-full rounded-full bg-white p-[5px]">
               <img
-                src="/images/foto1.jpg"
+                src="/images/azkal-cover.jpg"
                 alt="Foto Anak Khitanan"
                 className="w-full h-full object-cover rounded-full"
               />
@@ -732,7 +732,7 @@ const toggleMusic = () => {
       </p>
 
       <h2 className="text-5xl md:text-7xl font-bold text-[#6f3f1d] drop-shadow-sm mb-5 font-satisfy leading-none">
-        Afzal Qolqy Hasan
+        Afzal Qolyubi Hasan
       </h2>
 
       <div className="flex items-center justify-center gap-3 my-6 text-[#d4a45f]">
@@ -749,7 +749,7 @@ const toggleMusic = () => {
   whileHover={{ scale: 1.03 }}
   className="text-xl md:text-2xl font-semibold text-[#7b4925] bg-[#fff4df]/80 inline-block px-6 py-3 rounded-full backdrop-blur-sm shadow-sm border border-[#ead2a6]"
 >
-  Bapak ... & Ibu ...
+  Abi Rifqi & Umi Febi
 </motion.p>
 </div>
   </motion.div>
@@ -844,15 +844,6 @@ const toggleMusic = () => {
               Sabtu, 20 Juni 2026
             </span>
           </p>
-
-          <p className="flex flex-col gap-2">
-            <span className="font-bold bg-[#fff4df] text-[#8b572a] px-4 py-2 rounded-full inline-block shadow-sm border border-[#ead2a6] w-fit">
-              ⏰ Waktu
-            </span>
-            <span className="pl-1">
-              Menyesuaikan jadwal pelaksanaan khitan
-            </span>
-          </p>
         </div>
       </motion.div>
 
@@ -895,13 +886,12 @@ const toggleMusic = () => {
               📍 Lokasi
             </span>
             <span className="pl-1 leading-relaxed">
-              Jl. Masjid Nurul Yaqin No.216, Cinangka, Kec. Sawangan,
-              Kota Depok, Jawa Barat 16516
+              Jl. Swadaya II, RT 04/19 Kel. Rangkapan Jaya, Kec. Pancoran Mas, Kota Depok
             </span>
           </p>
 
           <span className="bg-[#fff4df]/80 block mt-4 p-3 rounded-2xl text-sm md:text-base shadow-sm font-medium border border-[#ead2a6]">
-            ✨ Dirumah Cinangka
+            ✨ Dirumah Kami
           </span>
         </div>
       </motion.div>
