@@ -14,6 +14,25 @@ import {
   BiMusic,
 } from "react-icons/bi";
 
+
+const BottomGiraffeDecor = ({ className = "" }) => {
+  return (
+    <div className={`absolute inset-0 pointer-events-none overflow-hidden z-[45] ${className}`}>
+      <img
+        src="/images/right.png"
+        alt=""
+        className="absolute bottom-[58px] right-[260px] w-[160px] pointer-events-none [transform:scaleX(-1)]"
+      />
+
+      <img
+        src="/images/right.png"
+        alt=""
+        className="absolute bottom-[58px] right-[-25px] w-[160px] pointer-events-none"
+      />
+    </div>
+  );
+};
+
 // ------------------------------------------------------------
 // 8. GALERI – MOMEN KHITANAN
 // ------------------------------------------------------------
@@ -103,6 +122,8 @@ const CoralGallery = () => {
         />
       </div>
 
+      <BottomGiraffeDecor />
+
       <div className="max-w-6xl mx-auto px-5 text-center relative z-20">
         <motion.div
           initial={{ scale: 0 }}
@@ -114,7 +135,7 @@ const CoralGallery = () => {
           <BiImages className="text-5xl text-[#b8793d] drop-shadow-lg" />
         </motion.div>
 
-        <h2 className="text-5xl md:text-6xl font-bold text-[#7b4925] mt-4 mb-3 font-satisfy drop-shadow-sm">
+        <h2 className="text-5xl md:text-6xl font-bold text-[#7b4925] mt-4 mb-3 font-script drop-shadow-sm">
           Galeri Momen
         </h2>
 
@@ -224,6 +245,8 @@ const Countdown = ({ targetDate }) => {
   );
 };
 
+
+
 // ------------------------------------------------------------
 // 10. MAIN APP
 // ------------------------------------------------------------
@@ -233,6 +256,8 @@ const [activeSection, setActiveSection] = useState("hero");
 const [guestName, setGuestName] = useState("Bunda/Ayah/Teman Istimewa");
 const [isMusicPlaying, setIsMusicPlaying] = useState(false);
 const audioRef = useRef(null);
+
+const sectionOrder = ["doa", "greeting", "timeline", "gallery"];
 
 useEffect(() => {
   const params = new URLSearchParams(window.location.search);
@@ -245,6 +270,23 @@ useEffect(() => {
     document.body.style.overflow = "auto";
   };
 }, []);
+
+useEffect(() => {
+  if (!isOpened) return;
+  if (activeSection === "hero") return;
+  if (activeSection === "gallery") return;
+
+  const timer = setTimeout(() => {
+    const currentIndex = sectionOrder.indexOf(activeSection);
+    const nextSection = sectionOrder[currentIndex + 1];
+
+    if (nextSection) {
+      setActiveSection(nextSection);
+    }
+  }, 5000);
+
+  return () => clearTimeout(timer);
+}, [isOpened, activeSection]);
 
 const handleOpenInvite = () => {
   setIsOpened(true);
@@ -315,77 +357,82 @@ const toggleMusic = () => {
   </motion.button>
 )}
 
-      {/* NAVBAR - KHITANAN SINGLE PAGE */}
+      {/* NAVBAR - BOTTOM DOCK */}
 <nav
-  className={`fixed bottom-4 left-3 right-3 z-50 rounded-full py-2.5 px-4 shadow-2xl backdrop-blur-xl bg-[#7b4925]/90 border border-[#e7c88d]/70 md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-[520px] transition-all duration-500 ${
+  className={`fixed bottom-0 left-1/2 z-50 w-full max-w-[430px] -translate-x-1/2 bg-[#8b572a] text-[#fff4df] shadow-2xl rounded-t-[22px] border-t border-[#e7c88d]/50 px-3 pt-2 pb-[calc(10px+env(safe-area-inset-bottom))] transition-all duration-500 ${
     isOpened
       ? "translate-y-0 opacity-100"
-      : "translate-y-20 opacity-0 pointer-events-none"
+      : "translate-y-24 opacity-0 pointer-events-none"
   }`}
 >
-  <div className="flex justify-around items-center text-[#fff4df]">
+  <div className="flex items-end justify-around">
     <motion.button
       type="button"
-      whileHover={{ scale: 1.18, y: -5 }}
-      whileTap={{ scale: 0.9 }}
+      whileTap={{ scale: 0.92 }}
       onClick={() => setActiveSection("hero")}
-      className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold ${
-        activeSection === "hero" ? "text-[#ffe1a8]" : "text-[#fff4df]"
+      className={`flex w-[20%] flex-col items-center justify-center gap-1 rounded-2xl py-1.5 text-[9px] font-semibold transition ${
+        activeSection === "hero"
+          ? "bg-[#fff4df] text-[#8b572a] shadow-lg"
+          : "text-[#fff4df]/90"
       }`}
     >
-      <BiEnvelopeOpen className="text-2xl drop-shadow-lg" />
+      <BiEnvelopeOpen className="text-[19px]" />
       <span>Opening</span>
     </motion.button>
 
     <motion.button
       type="button"
-      whileHover={{ scale: 1.18, y: -5 }}
-      whileTap={{ scale: 0.9 }}
+      whileTap={{ scale: 0.92 }}
       onClick={() => setActiveSection("doa")}
-      className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold ${
-        activeSection === "doa" ? "text-[#ffe1a8]" : "text-[#fff4df]"
+      className={`flex w-[20%] flex-col items-center justify-center gap-1 rounded-2xl py-1.5 text-[9px] font-semibold transition ${
+        activeSection === "doa"
+          ? "bg-[#fff4df] text-[#8b572a] shadow-lg"
+          : "text-[#fff4df]/90"
       }`}
     >
-      <BiInfoCircle className="text-2xl drop-shadow-lg" />
+      <BiInfoCircle className="text-[19px]" />
       <span>Doa</span>
     </motion.button>
 
     <motion.button
       type="button"
-      whileHover={{ scale: 1.18, y: -5 }}
-      whileTap={{ scale: 0.9 }}
+      whileTap={{ scale: 0.92 }}
       onClick={() => setActiveSection("greeting")}
-      className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold ${
-        activeSection === "greeting" ? "text-[#ffe1a8]" : "text-[#fff4df]"
+      className={`flex w-[20%] flex-col items-center justify-center gap-1 rounded-2xl py-1.5 text-[9px] font-semibold transition ${
+        activeSection === "greeting"
+          ? "bg-[#fff4df] text-[#8b572a] shadow-lg"
+          : "text-[#fff4df]/90"
       }`}
     >
-      <BiHomeHeart className="text-2xl drop-shadow-lg" />
+      <BiHomeHeart className="text-[19px]" />
       <span>Greeting</span>
     </motion.button>
 
     <motion.button
       type="button"
-      whileHover={{ scale: 1.18, y: -5 }}
-      whileTap={{ scale: 0.9 }}
+      whileTap={{ scale: 0.92 }}
       onClick={() => setActiveSection("timeline")}
-      className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold ${
-        activeSection === "timeline" ? "text-[#ffe1a8]" : "text-[#fff4df]"
+      className={`flex w-[20%] flex-col items-center justify-center gap-1 rounded-2xl py-1.5 text-[9px] font-semibold transition ${
+        activeSection === "timeline"
+          ? "bg-[#fff4df] text-[#8b572a] shadow-lg"
+          : "text-[#fff4df]/90"
       }`}
     >
-      <BiCalendarHeart className="text-2xl drop-shadow-lg" />
+      <BiCalendarHeart className="text-[19px]" />
       <span>Timeline</span>
     </motion.button>
 
     <motion.button
       type="button"
-      whileHover={{ scale: 1.18, y: -5 }}
-      whileTap={{ scale: 0.9 }}
+      whileTap={{ scale: 0.92 }}
       onClick={() => setActiveSection("gallery")}
-      className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold ${
-        activeSection === "gallery" ? "text-[#ffe1a8]" : "text-[#fff4df]"
+      className={`flex w-[20%] flex-col items-center justify-center gap-1 rounded-2xl py-1.5 text-[9px] font-semibold transition ${
+        activeSection === "gallery"
+          ? "bg-[#fff4df] text-[#8b572a] shadow-lg"
+          : "text-[#fff4df]/90"
       }`}
     >
-      <BiImages className="text-2xl drop-shadow-lg" />
+      <BiImages className="text-[19px]" />
       <span>Gallery</span>
     </motion.button>
   </div>
@@ -467,7 +514,7 @@ const toggleMusic = () => {
           Undangan Tasyakuran Khitanan
         </p>
 
-        <h1 className="font-satisfy text-[#6f3f1d] text-[25px] leading-[0.95] mt-3 drop-shadow-sm">
+        <h1 className="font-script text-[#6f3f1d] text-[25px] leading-[0.95] mt-3 drop-shadow-sm">
           Azkal Qolyubi Hasan
         </h1>
       </motion.div>
@@ -525,20 +572,7 @@ const toggleMusic = () => {
       </AnimatePresence>
     </div>
 
-    {/* Dekorasi bawah kiri - ditukar & dinaikkan */}
-{/* Dekorasi bawah kiri - final touch */}
-<img
-  src="/images/asset_bottom_right_lantern_transparent.png"
-  alt=""
-  className="absolute bottom-[-15px] left-[-15px] w-[182px] z-30 pointer-events-none"
-/>
-
-{/* Dekorasi bawah kanan - final touch */}
-<img
-  src="/images/asset_bottom_left_balloons_transparent.png"
-  alt=""
-  className="absolute bottom-[-20px] right-[-25px] w-[182px] z-30 pointer-events-none"
-/>
+    <BottomGiraffeDecor />
 
     </motion.div>
   </section>
@@ -569,19 +603,8 @@ const toggleMusic = () => {
       alt=""
       className="absolute -top-24 left-1/2 -translate-x-1/2 w-[620px] max-w-none opacity-18"
     />
-
-    <img
-      src="/images/asset_bottom_left_balloons_transparent.png"
-      alt=""
-      className="absolute -bottom-24 -left-20 w-[280px] opacity-25"
-    />
-
-    <img
-      src="/images/asset_bottom_right_lantern_transparent.png"
-      alt=""
-      className="absolute -bottom-24 -right-20 w-[280px] opacity-25"
-    />
   </div>
+  <BottomGiraffeDecor />
 
   <motion.div
     initial="hidden"
@@ -590,7 +613,7 @@ const toggleMusic = () => {
     variants={fadeUp}
     className="relative z-20 w-full max-w-2xl mx-auto text-center"
   >
-    <div className="bg-[#fffdf7]/88 backdrop-blur-md rounded-[2.5rem] shadow-2xl border border-[#e7c88d]/60 px-6 py-10 md:px-10 md:py-12">
+    <div className="bg-[#fffdf7]/88 backdrop-blur-md rounded-[2.5rem] shadow-2xl border border-[#e7c88d]/60 px-5 py-8 md:px-8 md:py-10">
       {/* Ornamen kecil */}
       <div className="flex items-center justify-center gap-3 mb-7 text-[#d2a45f]">
         <span className="w-16 h-[1px] bg-[#d2a45f]" />
@@ -598,33 +621,33 @@ const toggleMusic = () => {
         <span className="w-16 h-[1px] bg-[#d2a45f]" />
       </div>
 
-      <h2 className="font-satisfy text-[#7b4925] text-4xl md:text-5xl mb-7">
-        Doa & Harapan
-      </h2>
+      <h2 className="font-script text-[#7b4925] text-[31px] md:text-[36px] mb-6">
+  Doa & Harapan
+</h2>
 
       {/* Ayat Arab */}
       <p
-        dir="rtl"
-        className="text-[#3b2a1f] text-2xl md:text-3xl leading-[2.2] font-serif mb-8"
-      >
+  dir="rtl"
+  className="text-[#3b2a1f] text-[13px] md:text-[13px] leading-[1.9] font-serif mb-6"
+>
         ثُمَّ أَوْحَيْنَا إِلَيْكَ أَنِ اتَّبِعْ مِلَّةَ إِبْرَاهِيمَ
         حَنِيفًا ۖ وَمَا كَانَ مِنَ الْمُشْرِكِينَ
       </p>
 
       {/* Arti */}
-      <p className="text-[#4d4036] text-base md:text-lg leading-relaxed mb-7">
+      <p className="text-[#4d4036] text-[13px] md:text-[15px] leading-[1.8] mb-6">
         Kemudian Kami wahyukan kepadamu, “Ikutilah agama Ibrahim yang lurus,
         dan dia bukanlah termasuk orang-orang musyrik.”
       </p>
 
-      <p className="text-[#8b572a] font-bold mb-8">
-        — QS. An-Nahl Ayat 123 —
-      </p>
+      <p className="text-[#8b572a] font-bold text-[13px] md:text-[14px] mb-6">
+  — QS. An-Nahl Ayat 123 —
+</p>
 
       <div className="mx-auto w-24 h-[1px] bg-[#d2a45f]/70 mb-8" />
 
       {/* Doa khitanan */}
-      <p className="text-[#4d4036] text-base md:text-lg leading-relaxed">
+      <p className="text-[#4d4036] text-[13px] md:text-[15px] leading-[1.9]">
         Semoga Allah SWT menjadikan putra kami anak yang sholeh, sehat,
         berbakti kepada kedua orang tua, taat dalam beribadah, serta tumbuh
         menjadi pribadi yang kuat iman, baik akhlak, dan bermanfaat bagi
@@ -659,19 +682,8 @@ const toggleMusic = () => {
       alt=""
       className="absolute -top-20 left-1/2 -translate-x-1/2 w-[680px] max-w-none opacity-25"
     />
-
-    <img
-      src="/images/asset_bottom_left_balloons_transparent.png"
-      alt=""
-      className="absolute -bottom-24 -left-20 w-[300px] opacity-30"
-    />
-
-    <img
-      src="/images/asset_bottom_right_lantern_transparent.png"
-      alt=""
-      className="absolute -bottom-24 -right-20 w-[300px] opacity-30"
-    />
   </div>
+  <BottomGiraffeDecor />
 
   <motion.div
     initial="hidden"
@@ -692,7 +704,7 @@ const toggleMusic = () => {
         <span className="text-3xl">☪️</span>
       </motion.div>
 
-      <h2 className="text-4xl md:text-5xl text-[#7b4925] font-bold mb-6 font-satisfy">
+      <h2 className="text-4xl md:text-5xl text-[#7b4925] font-bold mb-6 font-script">
         Assalamualaikum
       </h2>
 
@@ -731,8 +743,8 @@ const toggleMusic = () => {
         Acara Khitanan
       </p>
 
-      <h2 className="text-5xl md:text-7xl font-bold text-[#6f3f1d] drop-shadow-sm mb-5 font-satisfy leading-none">
-        Afzal Qolyubi Hasan
+      <h2 className="text-2xl md:text-4xl font-bold text-[#6f3f1d] drop-shadow-sm mb-5 font-script leading-none">
+        Azkal Qolyubi Hasan
       </h2>
 
       <div className="flex items-center justify-center gap-3 my-6 text-[#d4a45f]">
@@ -779,19 +791,9 @@ const toggleMusic = () => {
       alt=""
       className="absolute -top-24 left-1/2 -translate-x-1/2 w-[720px] max-w-none opacity-20"
     />
-
-    <img
-      src="/images/asset_bottom_left_balloons_transparent.png"
-      alt=""
-      className="absolute -bottom-24 -left-20 w-[300px] opacity-25"
-    />
-
-    <img
-      src="/images/asset_bottom_right_lantern_transparent.png"
-      alt=""
-      className="absolute -bottom-24 -right-20 w-[300px] opacity-25"
-    />
   </div>
+
+  <BottomGiraffeDecor />
 
   <motion.div
     initial="hidden"
@@ -809,7 +811,7 @@ const toggleMusic = () => {
         <BiCalendarHeart className="text-5xl text-[#b8793d] drop-shadow" />
       </motion.div>
 
-      <h2 className="text-5xl md:text-6xl font-bold text-[#7b4925] mt-4 font-satisfy">
+      <h2 className="text-5xl md:text-6xl font-bold text-[#7b4925] mt-4 font-script">
         Detail Acara
       </h2>
 
@@ -831,7 +833,7 @@ const toggleMusic = () => {
           </div>
         </div>
 
-        <h3 className="text-3xl md:text-4xl font-satisfy text-[#7b4925] text-center mb-6">
+        <h3 className="text-2xl md:text-4xl font-script text-[#7b4925] text-center mb-6">
           Pelaksanaan Khitan
         </h3>
 
@@ -858,7 +860,7 @@ const toggleMusic = () => {
           </div>
         </div>
 
-        <h3 className="text-3xl md:text-4xl font-satisfy text-[#7b4925] text-center mb-6">
+        <h3 className="text-2xl md:text-2xl font-script text-[#7b4925] text-center mb-6">
           Tasyakuran Khitanan
         </h3>
 
@@ -877,7 +879,7 @@ const toggleMusic = () => {
               ⏰ Waktu
             </span>
             <span className="pl-1">
-              11.00 WIB - Selesai
+              13.00 WIB - Selesai
             </span>
           </p>
 

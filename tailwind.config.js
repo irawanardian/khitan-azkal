@@ -6,6 +6,7 @@ export default {
       fontFamily: {
         quicksand: ["Quicksand", "sans-serif"],
         satisfy: ["Satisfy", "cursive"],
+        script: ['Courgette', 'cursive'],
       },
       animation: {
         wave: "waveMove 8s infinite ease-in-out",
