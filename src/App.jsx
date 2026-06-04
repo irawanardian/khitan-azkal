@@ -9,6 +9,9 @@ import {
   BiCalendarHeart,
   BiCalendar,
   BiMap,
+  BiPlay,
+  BiPause,
+  BiMusic,
 } from "react-icons/bi";
 
 // ------------------------------------------------------------
@@ -225,9 +228,10 @@ const Countdown = ({ targetDate }) => {
 // 10. MAIN APP
 // ------------------------------------------------------------
 export default function App() {
-  const [isOpened, setIsOpened] = useState(false);
+const [isOpened, setIsOpened] = useState(false);
 const [activeSection, setActiveSection] = useState("hero");
 const [guestName, setGuestName] = useState("Bunda/Ayah/Teman Istimewa");
+const [isMusicPlaying, setIsMusicPlaying] = useState(false);
 const audioRef = useRef(null);
 
 useEffect(() => {
@@ -247,7 +251,30 @@ const handleOpenInvite = () => {
   setActiveSection("doa");
 
   if (audioRef.current) {
-    audioRef.current.play().catch((e) => console.log("Audio play failed:", e));
+    audioRef.current
+      .play()
+      .then(() => setIsMusicPlaying(true))
+      .catch((e) => {
+        console.log("Audio play failed:", e);
+        setIsMusicPlaying(false);
+      });
+  }
+};
+
+const toggleMusic = () => {
+  if (!audioRef.current) return;
+
+  if (audioRef.current.paused) {
+    audioRef.current
+      .play()
+      .then(() => setIsMusicPlaying(true))
+      .catch((e) => {
+        console.log("Audio play failed:", e);
+        setIsMusicPlaying(false);
+      });
+  } else {
+    audioRef.current.pause();
+    setIsMusicPlaying(false);
   }
 };
 
@@ -263,6 +290,30 @@ const handleOpenInvite = () => {
   return (
     <div className="font-quicksand text-[#1f2937] relative overflow-x-hidden bg-[#fef9fc] min-h-screen selection:bg-pink-300 selection:text-white">
       <audio ref={audioRef} src="audio/huwannur.mp3" loop />
+
+      {/* MUSIC BUTTON */}
+{isOpened && (
+  <motion.button
+    type="button"
+    initial={{ opacity: 0, scale: 0.8, y: -10 }}
+    animate={{ opacity: 1, scale: 1, y: 0 }}
+    whileHover={{ scale: 1.08 }}
+    whileTap={{ scale: 0.92 }}
+    onClick={toggleMusic}
+    className="fixed bottom-24 right-4 z-[60] w-12 h-12 rounded-full bg-[#7b4925]/90 border border-[#e7c88d]/70 shadow-2xl backdrop-blur-xl text-[#fff4df] flex items-center justify-center"
+    aria-label={isMusicPlaying ? "Pause music" : "Play music"}
+  >
+    <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[#d99b5d] border border-white/70 flex items-center justify-center">
+      <BiMusic className="text-xs text-white" />
+    </span>
+
+    {isMusicPlaying ? (
+      <BiPause className="text-3xl drop-shadow" />
+    ) : (
+      <BiPlay className="text-3xl drop-shadow translate-x-[1px]" />
+    )}
+  </motion.button>
+)}
 
       {/* NAVBAR - KHITANAN SINGLE PAGE */}
 <nav
@@ -412,11 +463,11 @@ const handleOpenInvite = () => {
         transition={{ delay: 0.4 }}
         className="relative z-30 text-center mt-4"
       >
-        <p className="font-satisfy text-[#7b4925] text-[34px] leading-none">
-          Khitanan
+        <p className="font-medium text-[#7b4925] text-[14px] leading-none">
+          Undangan Tasyakuran Khitanan
         </p>
 
-        <h1 className="font-satisfy text-[#6f3f1d] text-[25px] leading-[0.95] mt-1 drop-shadow-sm">
+        <h1 className="font-satisfy text-[#6f3f1d] text-[25px] leading-[0.95] mt-3 drop-shadow-sm">
           Azkal Qolyubi Hasan
         </h1>
       </motion.div>
@@ -435,10 +486,9 @@ const handleOpenInvite = () => {
         transition={{ delay: 0.55 }}
         className="relative z-30 text-center mt-6 px-7 text-[#25201d] text-[14px] leading-[1.75] font-medium"
       >
-        <p>Tanpa Mengurangi Rasa Hormat,</p>
-        <p>Kami Mengundang Bapak/Ibu/Saudara/i</p>
-        <p>untuk Hadir di Acara Khitanan</p>
-        <p>Putra Kami.</p>
+        <p>Tanpa Mengurangi Rasa Hormat,
+        Kami Mengundang Bapak/Ibu/Saudara/i
+        untuk Hadir di Acara Kami.</p>
       </motion.div>
 
       {/* Kepada */}
