@@ -60,9 +60,14 @@ const SectionBottomDecor = ({ className = "" }) => {
 const SectionCanvas = ({ children, className = "" }) => {
   return (
     <section
-      className={`relative w-full h-[100dvh] flex justify-center overflow-hidden bg-[#f4e4d3] p-0 ${className}`}
+      className={`relative w-full h-[var(--app-h,100dvh)] flex justify-center overflow-hidden bg-[#f4e4d3] p-0 ${className}`}
     >
-      <div className="relative w-full max-w-[430px] h-[100dvh] bg-gradient-to-b from-[#f3dfcc] via-[#fff8ef] to-[#f4e1cd] overflow-hidden shadow-2xl">
+      <div
+        className="relative w-[430px] h-[844px] bg-gradient-to-b from-[#f3dfcc] via-[#fff8ef] to-[#f4e1cd] overflow-hidden shadow-2xl origin-top"
+        style={{
+          transform: "scale(var(--invite-scale, 1))",
+        }}
+      >
         <img
           src="/images/asset_top_botanical_header_transparent.png"
           alt=""
@@ -305,9 +310,32 @@ useEffect(() => {
   const to = params.get("to");
   if (to) setGuestName(to);
 
+  const setRealViewport = () => {
+    const realHeight = window.visualViewport?.height || window.innerHeight;
+    const realWidth = window.visualViewport?.width || window.innerWidth;
+
+    // Base desain kita kira-kira 430 x 844
+    // Dikurangi sedikit supaya aman dari toolbar iPhone/Safari.
+    const scaleByHeight = realHeight / 844;
+    const scaleByWidth = realWidth / 430;
+    const scale = Math.min(1, scaleByHeight, scaleByWidth);
+
+    document.documentElement.style.setProperty("--app-h", `${realHeight}px`);
+    document.documentElement.style.setProperty("--invite-scale", `${scale}`);
+  };
+
+  setRealViewport();
+
+  window.addEventListener("resize", setRealViewport);
+  window.visualViewport?.addEventListener("resize", setRealViewport);
+  window.visualViewport?.addEventListener("scroll", setRealViewport);
+
   document.body.style.overflow = "hidden";
 
   return () => {
+    window.removeEventListener("resize", setRealViewport);
+    window.visualViewport?.removeEventListener("resize", setRealViewport);
+    window.visualViewport?.removeEventListener("scroll", setRealViewport);
     document.body.style.overflow = "auto";
   };
 }, []);
@@ -478,16 +506,16 @@ const toggleMusic = () => {
 {activeSection === "hero" && (
   <motion.div key="hero" {...sectionSwitch}>
     <section
-      id="hero"
-      className="relative w-full h-[100dvh] flex justify-center overflow-hidden bg-[#f4e4d3] p-0"
-    >
+  id="hero"
+  className="relative w-full h-[var(--app-h,100dvh)] flex justify-center overflow-hidden bg-[#f4e4d3] p-0"
+>
       {/* CANVAS UNDANGAN */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.96 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.7, type: "spring", bounce: 0.18 }}
-        className="relative w-full max-w-[430px] h-[100dvh] bg-[#f4e4d3] overflow-hidden shadow-2xl"
-      >
+<div
+  className="relative w-[430px] h-[844px] bg-[#f4e4d3] overflow-hidden shadow-2xl origin-top"
+  style={{
+    transform: "scale(var(--invite-scale, 1))",
+  }}
+>
         {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#f3dfcc] via-[#fff4e8] to-[#f4e1cd]" />
 
@@ -499,7 +527,7 @@ const toggleMusic = () => {
         />
 
         {/* Panel putih arch */}
-        <div className="absolute left-1/2 top-[105px] -translate-x-1/2 w-[325px] h-[650px] bg-[#fffdf6]/95 rounded-t-[180px] rounded-b-[24px] z-20 shadow-[0_20px_50px_rgba(117,76,38,0.16)] border border-[#e8c98b]/70 overflow-hidden">
+        <div className="absolute left-1/2 top-[88px] -translate-x-1/2 w-[325px] h-[650px] bg-[#fffdf6]/95 rounded-t-[180px] rounded-b-[24px] z-20 shadow-[0_20px_50px_rgba(117,76,38,0.16)] border border-[#e8c98b]/70 overflow-hidden">
           {/* Hiasan lembut dalam panel */}
           <img
             src="/images/asset_top_botanical_header_transparent.png"
@@ -611,7 +639,7 @@ const toggleMusic = () => {
 <div className="absolute bottom-[58px] left-1/2 -translate-x-1/2 w-[300px] h-[90px] bg-[#d99b5d]/18 blur-3xl rounded-full z-10 pointer-events-none" />
 
         <HeroBottomDecor />
-      </motion.div>
+      </div>
     </section>
   </motion.div>
 )}
