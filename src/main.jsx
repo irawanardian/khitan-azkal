@@ -1,10 +1,13 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import GeneratorPage from "./generator/GeneratorPage.jsx";
+import "./index.css";
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+const isGeneratorPage = window.location.pathname.startsWith("/generator");
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    {isGeneratorPage ? <GeneratorPage /> : <App />}
+  </React.StrictMode>
+);

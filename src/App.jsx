@@ -488,6 +488,13 @@ useEffect(() => {
 
   document.body.style.overflow = "hidden";
 
+  const guestNameTextClass =
+  guestName.length > 45
+    ? "text-[9px] leading-[1.35]"
+    : guestName.length > 28
+    ? "text-[10px] leading-[1.35]"
+    : "text-[12px] leading-[1.3]";
+
   return () => {
     window.removeEventListener("resize", setRealViewport);
     window.visualViewport?.removeEventListener("resize", setRealViewport);
@@ -815,7 +822,9 @@ const toggleAutoSlide = () => {
             <motion.div variants={itemUp} className="text-center mt-5 w-full">
               <p className="text-[#25201d] text-[18px] mb-3">Kepada</p>
 
-              <p className="mx-auto max-w-[82%] text-[#8b572a] font-bold text-[12px] bg-white/90 rounded-full px-4 py-1.5 shadow-sm truncate">
+              <p
+                className={`mx-auto max-w-[86%] text-[#8b572a] font-bold bg-white/90 rounded-2xl px-4 py-2 shadow-sm whitespace-normal break-words ${guestNameTextClass}`}
+              >
                 {guestName}
               </p>
             </motion.div>
