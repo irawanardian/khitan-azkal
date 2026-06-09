@@ -12,6 +12,8 @@ import {
   BiPlay,
   BiPause,
   BiMusic,
+  BiTimeFive,
+  BiSkipNext,
 } from "react-icons/bi";
 
 
@@ -197,7 +199,7 @@ const CoralGallery = () => {
           className="text-[#6b5545] text-[11px] leading-[1.6] mb-5"
         >
           Beberapa potret kebahagiaan putra kami dan keluarga dalam menyambut
-          acara khitanan.
+          Tasyakuran khitanan.
         </motion.p>
 
         <div className="grid grid-cols-2 gap-3 w-full">
@@ -210,8 +212,8 @@ const CoralGallery = () => {
               onClick={() =>
                 Swal.fire({
                   icon: "info",
-                  title: "Galeri Khitanan",
-                  text: "Momen bahagia putra kami menjelang acara khitanan.",
+                  title: "Galeri Tasyakuran Khitanan",
+                  text: "Momen bahagia putra kami menjelang tasyakuran khitanan.",
                   confirmButtonColor: "#b8793d",
                   background: "#fff8ef",
                   iconColor: "#b8793d",
@@ -244,54 +246,207 @@ const CoralGallery = () => {
   );
 };
 
-// ------------------------------------------------------------
-// 9. COUNTDOWN
-// ------------------------------------------------------------
-const Countdown = ({ targetDate }) => {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const difference = new Date(targetDate) - new Date();
-      if (difference > 0) {
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60),
-        });
-      }
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [targetDate]);
+const MapsSection = () => {
+  const mapsUrl = "https://maps.app.goo.gl/gyNDWW4c7nJj5jXZ7";
 
   return (
-    <div className="flex flex-wrap justify-center gap-2 my-8">
-      {Object.entries(timeLeft).map(([unit, value], index) => (
-        <motion.div
-          key={unit}
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: index * 0.1, type: "spring" }}
-          whileHover={{ y: -5, scale: 1.1 }}
-          className="bg-white/60 backdrop-blur-md shadow-xl border-2 border-pink-200 rounded-2xl p-3 w-20 flex flex-col items-center cursor-pointer"
-        >
-          <span className="text-[#1e3d42] font-bold text-2xl">{value}</span>
-          <span className="text-[#e74694] font-bold text-xs uppercase tracking-wider">
-            {unit}
-          </span>
+    <SectionCanvas>
+      <motion.div
+        variants={sectionEnter}
+        initial="hidden"
+        animate="visible"
+        className="relative z-30 h-full flex flex-col items-center text-center px-7 pt-[76px]"
+      >
+        <motion.div variants={photoPop}>
+          <BiMap className="text-[36px] text-[#b8793d] mb-2" />
         </motion.div>
-      ))}
-    </div>
+
+        <motion.h2
+          variants={itemDown}
+          className="font-script text-[#7b4925] text-[34px] mb-2"
+        >
+          Lokasi Acara
+        </motion.h2>
+
+        <motion.p
+          variants={itemUp}
+          className="text-[#6b5545] text-[11px] leading-[1.6] mb-4"
+        >
+          Tasyakuran khitanan akan dilaksanakan di Majelis Ta&apos;lim Ar-Rifqi.
+          Klik tombol di bawah untuk membuka lokasi melalui Google Maps.
+        </motion.p>
+
+        <motion.div
+          variants={cardPop}
+          className="w-full rounded-[24px] overflow-hidden bg-[#fff4df] border border-[#ead2a6] shadow-xl p-2"
+        >
+          <div className="relative rounded-[18px] overflow-hidden border-2 border-white shadow-sm bg-[#f4e1cd]">
+            <iframe
+              title="Peta Lokasi Majelis Ta'lim Ar-Rifqi"
+              src="https://www.google.com/maps?q=Majelis%20Ta%27lim%20Ar-Rifqi%20Jl.%20Swadaya%20II%20Rangkapan%20Jaya%20Pancoran%20Mas%20Depok&output=embed"
+              className="w-full h-[220px] border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
+
+            <div className="absolute bottom-3 left-3 right-3 bg-white/92 backdrop-blur-md rounded-2xl px-3 py-2 shadow-lg border border-[#ead2a6] pointer-events-none">
+              <p className="text-[#7b4925] text-[11px] font-bold leading-tight">
+                📍 Majelis Ta&apos;lim Ar-Rifqi
+              </p>
+              <p className="text-[#6b5545] text-[9px] leading-tight mt-1">
+                Jl. Swadaya II, RT 04/19, Rangkapan Jaya, Pancoran Mas, Depok
+              </p>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.a
+          variants={itemUp}
+          href={mapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-5 inline-flex items-center justify-center gap-2 bg-[#d99b5d] text-white font-semibold rounded-full shadow-xl border border-white/70 w-[210px] py-3 text-[14px]"
+        >
+          <BiMap className="text-[18px]" />
+          Buka Google Maps
+        </motion.a>
+      </motion.div>
+    </SectionCanvas>
   );
 };
 
+// ------------------------------------------------------------
+// 9. COUNTDOWN
+// ------------------------------------------------------------
+const CountdownSection = () => {
+  const targetDate = "2026-07-05T13:00:00+07:00";
 
+  const [timeLeft, setTimeLeft] = useState({
+    hari: 0,
+    jam: 0,
+    menit: 0,
+    detik: 0,
+  });
+
+  useEffect(() => {
+    const updateCountdown = () => {
+      const distance = new Date(targetDate).getTime() - new Date().getTime();
+
+      if (distance <= 0) {
+        setTimeLeft({
+          hari: 0,
+          jam: 0,
+          menit: 0,
+          detik: 0,
+        });
+        return;
+      }
+
+      setTimeLeft({
+        hari: Math.floor(distance / (1000 * 60 * 60 * 24)),
+        jam: Math.floor((distance / (1000 * 60 * 60)) % 24),
+        menit: Math.floor((distance / (1000 * 60)) % 60),
+        detik: Math.floor((distance / 1000) % 60),
+      });
+    };
+
+    updateCountdown();
+    const timer = setInterval(updateCountdown, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const countdownItems = [
+    { label: "Hari", value: timeLeft.hari },
+    { label: "Jam", value: timeLeft.jam },
+    { label: "Menit", value: timeLeft.menit },
+    { label: "Detik", value: timeLeft.detik },
+  ];
+
+  return (
+    <SectionCanvas>
+      <motion.div
+        variants={sectionEnter}
+        initial="hidden"
+        animate="visible"
+        className="relative z-30 h-full flex flex-col items-center text-center px-7 pt-[82px]"
+      >
+        <motion.div variants={photoPop}>
+          <BiTimeFive className="text-[34px] text-[#b8793d] mb-2" />
+        </motion.div>
+
+        <motion.h2
+          variants={itemDown}
+          className="font-script text-[#7b4925] text-[32px] leading-[1.15] mb-2"
+        >
+          Menuju Hari Bahagia
+        </motion.h2>
+
+        <motion.p
+          variants={itemUp}
+          className="text-[#6b5545] text-[11px] leading-[1.6] mb-5 max-w-[250px]"
+        >
+          Menghitung waktu menuju acara tasyakuran khitanan putra kami.
+        </motion.p>
+
+        <motion.div
+          variants={cardPop}
+          className="w-full bg-[#fff8ef]/90 border border-[#ead2a6] rounded-[26px] px-4 py-5 shadow-xl"
+        >
+          <p className="inline-block bg-[#fff4df] text-[#8b572a] px-4 py-1.5 rounded-full text-[11px] font-bold border border-[#ead2a6] mb-4">
+            Minggu, 5 Juli 2026
+          </p>
+
+          <div className="grid grid-cols-4 gap-2 w-full">
+            {countdownItems.map((item) => (
+              <motion.div
+                key={item.label}
+                variants={cardPop}
+                className="rounded-[18px] bg-white/90 border border-[#ead2a6] shadow-md px-1 py-3"
+              >
+                <p className="text-[#7b4925] text-[22px] leading-none font-bold">
+                  {String(item.value).padStart(2, "0")}
+                </p>
+                <p className="text-[#6b5545] text-[9px] font-semibold mt-2">
+                  {item.label}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        <motion.div
+  variants={itemUp}
+  className="mt-5 w-full rounded-[22px] bg-[#fffdf7]/85 border border-[#ead2a6] shadow-md px-5 py-3"
+>
+  <p className="text-[#7b4925] text-[11px] leading-[1.55]">
+    InsyaAllah sampai bertemu di acara kami 🤎
+  </p>
+</motion.div>
+
+<motion.div
+  variants={itemUp}
+  className="mt-5 flex items-center justify-center gap-3 text-[#d2a45f]"
+>
+  <span className="w-14 h-[1px] bg-[#d2a45f]/80" />
+  <span className="text-[11px]">✦</span>
+  <span className="w-14 h-[1px] bg-[#d2a45f]/80" />
+</motion.div>
+
+<motion.div
+  variants={itemUp}
+  className="mt-4 px-5 text-center"
+>
+  <p className="text-[#6b5545] text-[11px] leading-[1.7]">
+    Semoga tasyakuran ini menjadi awal kebaikan, keberkahan, dan doa terbaik
+    untuk putra kami.
+  </p>
+</motion.div>
+      </motion.div>
+    </SectionCanvas>
+  );
+};
 
 // ------------------------------------------------------------
 // 10. MAIN APP
@@ -301,9 +456,10 @@ const [isOpened, setIsOpened] = useState(false);
 const [activeSection, setActiveSection] = useState("hero");
 const [guestName, setGuestName] = useState("Bunda/Ayah/Teman Istimewa");
 const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+const [isAutoSlide, setIsAutoSlide] = useState(true);
 const audioRef = useRef(null);
 
-const sectionOrder = ["doa", "greeting", "timeline", "gallery"];
+const sectionOrder = ["doa", "greeting", "timeline", "countdown", "maps", "gallery"];
 
 useEffect(() => {
   const params = new URLSearchParams(window.location.search);
@@ -342,6 +498,7 @@ useEffect(() => {
 
 useEffect(() => {
   if (!isOpened) return;
+  if (!isAutoSlide) return;
   if (activeSection === "hero") return;
   if (activeSection === "gallery") return;
 
@@ -352,10 +509,10 @@ useEffect(() => {
     if (nextSection) {
       setActiveSection(nextSection);
     }
-  }, 5000);
+  }, 10000);
 
   return () => clearTimeout(timer);
-}, [isOpened, activeSection]);
+}, [isOpened, activeSection, isAutoSlide]);
 
 const handleOpenInvite = () => {
   setIsOpened(true);
@@ -389,34 +546,63 @@ const toggleMusic = () => {
   }
 };
 
-  
+const toggleAutoSlide = () => {
+  setIsAutoSlide((prev) => !prev);
+};
 
   return (
     <div className="font-quicksand text-[#1f2937] relative overflow-x-hidden bg-[#fef9fc] min-h-screen selection:bg-pink-300 selection:text-white">
       <audio ref={audioRef} src="audio/huwannur.mp3" loop />
 
-      {/* MUSIC BUTTON */}
+      {/* FLOATING CONTROLS */}
 {isOpened && (
-  <motion.button
-    type="button"
+  <motion.div
     initial={{ opacity: 0, scale: 0.8, y: -10 }}
     animate={{ opacity: 1, scale: 1, y: 0 }}
-    whileHover={{ scale: 1.08 }}
-    whileTap={{ scale: 0.92 }}
-    onClick={toggleMusic}
-    className="fixed bottom-24 right-4 z-[60] w-12 h-12 rounded-full bg-[#7b4925]/90 border border-[#e7c88d]/70 shadow-2xl backdrop-blur-xl text-[#fff4df] flex items-center justify-center"
-    aria-label={isMusicPlaying ? "Pause music" : "Play music"}
+    className="fixed bottom-24 right-4 z-[60] flex flex-col gap-3"
   >
-    <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[#d99b5d] border border-white/70 flex items-center justify-center">
-      <BiMusic className="text-xs text-white" />
-    </span>
+    {/* AUTO SLIDE BUTTON */}
+    <motion.button
+      type="button"
+      whileHover={{ scale: 1.08 }}
+      whileTap={{ scale: 0.92 }}
+      onClick={toggleAutoSlide}
+      className={`relative w-12 h-12 rounded-full border border-[#e7c88d]/70 shadow-2xl backdrop-blur-xl text-[#fff4df] flex items-center justify-center ${
+        isAutoSlide ? "bg-[#7b4925]/90" : "bg-[#4d4036]/75"
+      }`}
+      aria-label={isAutoSlide ? "Matikan auto slide" : "Nyalakan auto slide"}
+      title={isAutoSlide ? "Auto slide aktif" : "Auto slide mati"}
+    >
+      <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[#d99b5d] border border-white/70 flex items-center justify-center">
+        <span className="text-[8px] text-white font-bold">
+          {isAutoSlide ? "ON" : "OFF"}
+        </span>
+      </span>
 
-    {isMusicPlaying ? (
-      <BiPause className="text-3xl drop-shadow" />
-    ) : (
-      <BiPlay className="text-3xl drop-shadow translate-x-[1px]" />
-    )}
-  </motion.button>
+      <BiSkipNext className="text-2xl drop-shadow" />
+    </motion.button>
+
+    {/* MUSIC BUTTON */}
+    <motion.button
+      type="button"
+      whileHover={{ scale: 1.08 }}
+      whileTap={{ scale: 0.92 }}
+      onClick={toggleMusic}
+      className="relative w-12 h-12 rounded-full bg-[#7b4925]/90 border border-[#e7c88d]/70 shadow-2xl backdrop-blur-xl text-[#fff4df] flex items-center justify-center"
+      aria-label={isMusicPlaying ? "Pause music" : "Play music"}
+      title={isMusicPlaying ? "Pause music" : "Play music"}
+    >
+      <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[#d99b5d] border border-white/70 flex items-center justify-center">
+        <BiMusic className="text-xs text-white" />
+      </span>
+
+      {isMusicPlaying ? (
+        <BiPause className="text-3xl drop-shadow" />
+      ) : (
+        <BiPlay className="text-3xl drop-shadow translate-x-[1px]" />
+      )}
+    </motion.button>
+  </motion.div>
 )}
 
       {/* NAVBAR - BOTTOM DOCK */}
@@ -432,13 +618,13 @@ const toggleMusic = () => {
       type="button"
       whileTap={{ scale: 0.92 }}
       onClick={() => setActiveSection("hero")}
-      className={`flex w-[20%] flex-col items-center justify-center gap-1 rounded-2xl py-1.5 text-[9px] font-semibold transition ${
+      className={`flex w-[14.28%] flex-col items-center justify-center gap-1 rounded-2xl py-1.5 text-[9px] font-semibold transition ${
         activeSection === "hero"
           ? "bg-[#fff4df] text-[#8b572a] shadow-lg"
           : "text-[#fff4df]/90"
       }`}
     >
-      <BiEnvelopeOpen className="text-[19px]" />
+      <BiEnvelopeOpen className="text-[18px]" />
       <span>Opening</span>
     </motion.button>
 
@@ -446,13 +632,13 @@ const toggleMusic = () => {
       type="button"
       whileTap={{ scale: 0.92 }}
       onClick={() => setActiveSection("doa")}
-      className={`flex w-[20%] flex-col items-center justify-center gap-1 rounded-2xl py-1.5 text-[9px] font-semibold transition ${
+      className={`flex w-[14.28%] flex-col items-center justify-center gap-1 rounded-2xl py-1.5 text-[9px] font-semibold transition ${
         activeSection === "doa"
           ? "bg-[#fff4df] text-[#8b572a] shadow-lg"
           : "text-[#fff4df]/90"
       }`}
     >
-      <BiInfoCircle className="text-[19px]" />
+      <BiInfoCircle className="text-[18px]" />
       <span>Doa</span>
     </motion.button>
 
@@ -460,13 +646,13 @@ const toggleMusic = () => {
       type="button"
       whileTap={{ scale: 0.92 }}
       onClick={() => setActiveSection("greeting")}
-      className={`flex w-[20%] flex-col items-center justify-center gap-1 rounded-2xl py-1.5 text-[9px] font-semibold transition ${
+      className={`flex w-[14.28%] flex-col items-center justify-center gap-1 rounded-2xl py-1.5 text-[9px] font-semibold transition ${
         activeSection === "greeting"
           ? "bg-[#fff4df] text-[#8b572a] shadow-lg"
           : "text-[#fff4df]/90"
       }`}
     >
-      <BiHomeHeart className="text-[19px]" />
+      <BiHomeHeart className="text-[18px]" />
       <span>Greeting</span>
     </motion.button>
 
@@ -474,27 +660,55 @@ const toggleMusic = () => {
       type="button"
       whileTap={{ scale: 0.92 }}
       onClick={() => setActiveSection("timeline")}
-      className={`flex w-[20%] flex-col items-center justify-center gap-1 rounded-2xl py-1.5 text-[9px] font-semibold transition ${
+      className={`flex w-[14.28%] flex-col items-center justify-center gap-1 rounded-2xl py-1.5 text-[9px] font-semibold transition ${
         activeSection === "timeline"
           ? "bg-[#fff4df] text-[#8b572a] shadow-lg"
           : "text-[#fff4df]/90"
       }`}
     >
-      <BiCalendarHeart className="text-[19px]" />
+      <BiCalendarHeart className="text-[18px]" />
       <span>Timeline</span>
     </motion.button>
+
+    <motion.button
+  type="button"
+  whileTap={{ scale: 0.92 }}
+  onClick={() => setActiveSection("countdown")}
+  className={`flex w-[14.28%] flex-col items-center justify-center gap-1 rounded-2xl py-1.5 text-[8px] font-semibold transition ${
+    activeSection === "countdown"
+      ? "bg-[#fff4df] text-[#8b572a] shadow-lg"
+      : "text-[#fff4df]/90"
+  }`}
+>
+  <BiTimeFive className="text-[18px]" />
+  <span>Hari H</span>
+</motion.button>
+
+    <motion.button
+  type="button"
+  whileTap={{ scale: 0.92 }}
+  onClick={() => setActiveSection("maps")}
+  className={`flex w-[14.28%] flex-col items-center justify-center gap-1 rounded-2xl py-1.5 text-[9px] font-semibold transition ${
+    activeSection === "maps"
+      ? "bg-[#fff4df] text-[#8b572a] shadow-lg"
+      : "text-[#fff4df]/90"
+  }`}
+>
+  <BiMap className="text-[18px]" />
+  <span>Maps</span>
+</motion.button>
 
     <motion.button
       type="button"
       whileTap={{ scale: 0.92 }}
       onClick={() => setActiveSection("gallery")}
-      className={`flex w-[20%] flex-col items-center justify-center gap-1 rounded-2xl py-1.5 text-[9px] font-semibold transition ${
+      className={`flex w-[14.28%] flex-col items-center justify-center gap-1 rounded-2xl py-1.5 text-[9px] font-semibold transition ${
         activeSection === "gallery"
           ? "bg-[#fff4df] text-[#8b572a] shadow-lg"
           : "text-[#fff4df]/90"
       }`}
     >
-      <BiImages className="text-[19px]" />
+      <BiImages className="text-[18px]" />
       <span>Gallery</span>
     </motion.button>
   </div>
@@ -736,7 +950,7 @@ const toggleMusic = () => {
   className="text-[#4d4036] text-[12px] leading-[1.7] mb-6"
 >
   Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud
-  menyelenggarakan acara khitanan putra kami. Tanpa mengurangi rasa
+  menyelenggarakan tasyakuran khitanan putra kami. Tanpa mengurangi rasa
   hormat, kami mengundang{" "}
   <span className="font-bold text-[#8b572a]">{guestName}</span>{" "}
   untuk hadir dan memberikan doa restu.
@@ -759,7 +973,7 @@ const toggleMusic = () => {
 </motion.div>
 
 <motion.p variants={itemUp} className="text-[#8b572a] text-[14px] mt-3 mb-1">
-  Acara Khitanan
+  Tasyakuran Khitanan
 </motion.p>
 
 <motion.h2
@@ -786,7 +1000,7 @@ const toggleMusic = () => {
   variants={cardPop}
   className="text-[#7b4925] bg-[#fff4df]/80 inline-block px-5 py-2 rounded-full shadow-sm border border-[#ead2a6] text-[14px] font-bold"
 >
-  Abi Rifqi & Umi Febi
+  Ayah Rifqi & Mamah Febi
 </motion.p>
       </motion.div> 
     </SectionCanvas>
@@ -819,7 +1033,7 @@ const toggleMusic = () => {
           className="text-[#6b5545] text-[11px] leading-[1.6] mb-5"
         >
           Dengan penuh rasa syukur, kami mengundang Bapak/Ibu/Saudara/i untuk
-          hadir dalam rangkaian acara khitanan putra kami.
+          hadir dalam rangkaian tasyakuran khitanan putra kami.
         </motion.p>
 
         <div className="w-full space-y-4">
@@ -861,7 +1075,7 @@ const toggleMusic = () => {
 
               <p>
                 <span className="font-bold text-[#8b572a]">📍</span>{" "}
-                Jl. Swadaya II, RT 04/19 Kel. Rangkapan Jaya, Kec. Pancoran
+                Mejelis Ta'lim Ar-Rifqi - Jl. Swadaya II, RT 04/19 Kel. Rangkapan Jaya, Kec. Pancoran
                 Mas, Kota Depok
               </p>
 
@@ -876,7 +1090,19 @@ const toggleMusic = () => {
   </motion.div>
 )}
 
-      
+{/* COUNTDOWN SECTION */}
+{activeSection === "countdown" && (
+  <motion.div key="countdown" {...sectionSwitch}>
+    <CountdownSection />
+  </motion.div>
+)}
+
+      {/* MAPS SECTION */}
+{activeSection === "maps" && (
+  <motion.div key="maps" {...sectionSwitch}>
+    <MapsSection />
+  </motion.div>
+)}
 
       {/* CORAL GALLERY SECTION */}
 {activeSection === "gallery" && (
