@@ -461,6 +461,13 @@ const audioRef = useRef(null);
 
 const sectionOrder = ["doa", "greeting", "timeline", "countdown", "maps", "gallery"];
 
+const guestNameTextClass =
+  guestName.length > 45
+    ? "text-[9px] leading-[1.35]"
+    : guestName.length > 28
+    ? "text-[10px] leading-[1.35]"
+    : "text-[12px] leading-[1.3]";
+
 useEffect(() => {
   const params = new URLSearchParams(window.location.search);
   const to = params.get("to");
@@ -487,13 +494,6 @@ useEffect(() => {
   window.visualViewport?.addEventListener("scroll", setRealViewport);
 
   document.body.style.overflow = "hidden";
-
-  const guestNameTextClass =
-  guestName.length > 45
-    ? "text-[9px] leading-[1.35]"
-    : guestName.length > 28
-    ? "text-[10px] leading-[1.35]"
-    : "text-[12px] leading-[1.3]";
 
   return () => {
     window.removeEventListener("resize", setRealViewport);
